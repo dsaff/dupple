@@ -14,7 +14,7 @@
 
 package org.dupple;
 
-import com.google.ocean.testing.dupple.DuppleTest.DummySelenium;
+import org.dupple.DuppleTest.ExampleInterface;
 
 import junit.framework.TestCase;
 
@@ -25,15 +25,15 @@ import junit.framework.TestCase;
  */
 public class JmockDuppleryTest extends TestCase {  
   public void testTargetClass_whenRecordingInterface() {
-    DummySelenium recorder = Dupple.recorder(DummySelenium.class);
+    ExampleInterface recorder = Dupple.recorder(ExampleInterface.class);
     final JmockDupplery creator =
         (JmockDupplery) ImposterizationRememberer.Util.creator(recorder);
     assertEquals(Object.class, creator.targetClass(recorder));
   }
 
   public void testGetInvocations_forRecorderOfStub() {
-    DummySelenium stub = Dupple.permissiveStub(DummySelenium.class);
-    DummySelenium recorder = Dupple.recorder(stub);
+    ExampleInterface stub = Dupple.permissiveStub(ExampleInterface.class);
+    ExampleInterface recorder = Dupple.recorder(stub);
     final JmockDupplery creator =
         (JmockDupplery) ImposterizationRememberer.Util.creator(recorder);
 

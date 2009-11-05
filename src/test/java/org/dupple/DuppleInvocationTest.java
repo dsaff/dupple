@@ -14,7 +14,7 @@
 
 package org.dupple;
 
-import com.google.ocean.testing.dupple.DuppleTest.DummySelenium;
+import org.dupple.DuppleTest.ExampleInterface;
 
 import junit.framework.TestCase;
 
@@ -25,8 +25,8 @@ import junit.framework.TestCase;
  */
 public class DuppleInvocationTest extends TestCase {
   public void testEquals_false() {
-    DummySelenium r1 = Dupple.recorder(DummySelenium.class);
-    DummySelenium r2 = Dupple.recorder(DummySelenium.class);
+    ExampleInterface r1 = Dupple.recorder(ExampleInterface.class);
+    ExampleInterface r2 = Dupple.recorder(ExampleInterface.class);
     r1.getEval("a");
     r2.getEval("b");
     assertFalse(Dupple.callsTo(r1).equals(Dupple.callsTo(r2)));
@@ -37,16 +37,16 @@ public class DuppleInvocationTest extends TestCase {
   }
 
   public void testEquals_true() {
-    DummySelenium r1 = Dupple.recorder(DummySelenium.class);
-    DummySelenium r2 = Dupple.recorder(DummySelenium.class);
+    ExampleInterface r1 = Dupple.recorder(ExampleInterface.class);
+    ExampleInterface r2 = Dupple.recorder(ExampleInterface.class);
     r1.getEval("a");
     r2.getEval("a");
     assertTrue(Dupple.callsTo(r1).equals(Dupple.callsTo(r2)));
   }
 
   public void testHashCode() {
-    DummySelenium r1 = Dupple.recorder(DummySelenium.class);
-    DummySelenium r2 = Dupple.recorder(DummySelenium.class);
+    ExampleInterface r1 = Dupple.recorder(ExampleInterface.class);
+    ExampleInterface r2 = Dupple.recorder(ExampleInterface.class);
     r1.getEval("a");
     r2.getEval("a");
     assertEquals(Dupple.callsTo(r1).hashCode(), Dupple.callsTo(r2).hashCode());

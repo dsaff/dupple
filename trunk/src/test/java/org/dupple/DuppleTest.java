@@ -36,7 +36,7 @@ public class DuppleTest extends TestCase {
    * A interface for testing, which happens to look like a small subset of
    * Selenium
    */
-  public interface DummySelenium {
+  public interface ExampleInterface {
     void keyPress(String locator, String key);
 
     void answerOnNextPrompt(String answer);
@@ -45,9 +45,9 @@ public class DuppleTest extends TestCase {
   }
 
   public void testAssertCalledFailsIfQuotedCallWasNotObserved() {
-    final DummySelenium sel = Dupple.recorder(DummySelenium.class);
+    final ExampleInterface exi = Dupple.recorder(ExampleInterface.class);
     try {
-      Dupple.assertCalled(sel).keyPress("name=password", "\n");
+      Dupple.assertCalled(exi).keyPress("name=password", "\n");
     } catch (AssertionError e) {
       return;
     }
@@ -56,11 +56,11 @@ public class DuppleTest extends TestCase {
 
   public void testAssertCalled_whenFailingIndicatesActuallyCalledMethods() {
     String notCalled = "notCalled";
-    DummySelenium sel = Dupple.recorder(DummySelenium.class);
+    ExampleInterface exi = Dupple.recorder(ExampleInterface.class);
     String actuallyCalled = "actuallyCalled";
-    sel.answerOnNextPrompt(actuallyCalled);
+    exi.answerOnNextPrompt(actuallyCalled);
     try {
-      Dupple.assertCalled(sel).answerOnNextPrompt(notCalled);
+      Dupple.assertCalled(exi).answerOnNextPrompt(notCalled);
     } catch (AssertionError e) {
       assertThat(e.getMessage(),
           containsString("{\nanswerOnNextPrompt(actuallyCalled)\n}"));
@@ -166,21 +166,21 @@ public class DuppleTest extends TestCase {
   }
 
   public void testNoOtherCallsPasses() {
-    DummySelenium sel = Dupple.recorder(DummySelenium.class);
-    sel.answerOnNextPrompt("a");
-    Dupple.assertCalled(sel).answerOnNextPrompt("a");
-    Dupple.assertNoOtherCalls(sel);
+    ExampleInterface exi = Dupple.recorder(ExampleInterface.class);
+    exi.answerOnNextPrompt("a");
+    Dupple.assertCalled(exi).answerOnNextPrompt("a");
+    Dupple.assertNoOtherCalls(exi);
   }
 
   public void testNoOtherCallsFails() {
-    DummySelenium sel = Dupple.recorder(DummySelenium.class);
-    sel.answerOnNextPrompt("a");
-    sel.answerOnNextPrompt("b");
-    Dupple.assertCalled(sel).answerOnNextPrompt("a");
+    ExampleInterface exi = Dupple.recorder(ExampleInterface.class);
+    exi.answerOnNextPrompt("a");
+    exi.answerOnNextPrompt("b");
+    Dupple.assertCalled(exi).answerOnNextPrompt("a");
 
     boolean assertionErrorThrown = false;
     try {
-      Dupple.assertNoOtherCalls(sel);
+      Dupple.assertNoOtherCalls(exi);
     } catch (AssertionError e) {
       assertionErrorThrown = true;
     }
@@ -188,7 +188,7 @@ public class DuppleTest extends TestCase {
   }
 
   public void testFirstExpectationWins() {
-    DummySelenium stub = Dupple.stub(DummySelenium.class);
+    ExampleInterface stub = Dupple.stub(ExampleInterface.class);
 
     Dupple.willReturn("first").fromAnyCallTo(stub);
     Dupple.willReturn("second").from(stub).getEval("a");
@@ -196,7 +196,7 @@ public class DuppleTest extends TestCase {
   }
 
   public void testLowPriorityExpectationsComeLast() {
-    DummySelenium stub = Dupple.stub(DummySelenium.class);
+    ExampleInterface stub = Dupple.stub(ExampleInterface.class);
 
     Dupple.willReturn("first").withLowPriority().fromAnyCallTo(stub);
     Dupple.willReturn("second").from(stub).getEval("a");
@@ -204,7 +204,7 @@ public class DuppleTest extends TestCase {
   }
 
   public void testCallsTo() {
-    DummySelenium recorder = Dupple.recorder(DummySelenium.class);
+    ExampleInterface recorder = Dupple.recorder(ExampleInterface.class);
     assertEquals(0, Dupple.callsTo(recorder).size());
     recorder.getEval("a");
     assertEquals(1, Dupple.callsTo(recorder).size());
@@ -213,14 +213,14 @@ public class DuppleTest extends TestCase {
   }
 
   public void testAssertWhere_passes() {
-    DummySelenium recorder = Dupple.recorder(DummySelenium.class);
+    ExampleInterface recorder = Dupple.recorder(ExampleInterface.class);
     recorder.getEval("here's sub");
     Dupple.where("x", containsString("sub")).assertCalled(recorder)
         .getEval("x");
   }
 
   public void testAssertWhere_notCalledFails() {
-    DummySelenium recorder = Dupple.recorder(DummySelenium.class);
+    ExampleInterface recorder = Dupple.recorder(ExampleInterface.class);
     recorder.getEval("here's sub");
     try {
       Dupple.where("x", containsString("sub")).assertNotCalled(recorder)
@@ -233,14 +233,14 @@ public class DuppleTest extends TestCase {
   }
 
   public void testAssertWhere_passesTwoParams() {
-    DummySelenium recorder = Dupple.recorder(DummySelenium.class);
+    ExampleInterface recorder = Dupple.recorder(ExampleInterface.class);
     recorder.keyPress("here's sub", "here's tub");
     Dupple.where("x", containsString("sub")).andWhere("y",
         containsString("tub")).assertCalled(recorder).keyPress("x", "y");
   }
 
   public void testAssertWhere_fails() {
-    DummySelenium recorder = Dupple.recorder(DummySelenium.class);
+    ExampleInterface recorder = Dupple.recorder(ExampleInterface.class);
     recorder.getEval("I won't say it");
     try {
       Dupple.where("x", containsString("sub")).assertCalled(recorder).getEval(

@@ -14,7 +14,7 @@
 
 package org.dupple;
 
-import com.google.ocean.testing.dupple.DelegatingInvocation.RedirectionException;
+import org.dupple.DelegatingInvocation.RedirectionException;
 
 import junit.framework.AssertionFailedError;
 import org.hamcrest.Matcher;

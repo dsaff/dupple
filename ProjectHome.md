@@ -1,0 +1,1 @@
+Dupple is a Java wrapper for jMock that exposes a simple static interface for recording and stubbing (like Mockito), but eschews global state.
